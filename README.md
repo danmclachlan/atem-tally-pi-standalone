@@ -4,8 +4,9 @@ You should have a Raspberry Pi Zero, 2, 3 or 4 with Raspbian OS that is already 
 
 You also will need to install Node.js on your Pi before you begin. For Pi 2 and Pi Zero, the latest available Node.js is version 10.
 
-You will also need the ATEM Tally application installed from
-https://designshift.ca/apps/atem-tally
+This version is self-contained and connects directly toe the Blackmagic ATEM device.
+It is derived from the work done by https://designshift.ca and merges the code from atem-tally-lite project for the atemController and atem-tally-pi project to create a standalone PI version that connects directly to the ATEM controller.
+
 
 # Installation
 
@@ -14,7 +15,7 @@ https://designshift.ca/apps/atem-tally
 2. Clone this project
 
     ```
-    git clone git@github.com:designshift/atem-tally-pi.git
+    git clone git@github.com:danmclachlan/atem-tally-pi-standalone.git
     ```
 
 3. Install all required packages
@@ -26,16 +27,19 @@ https://designshift.ca/apps/atem-tally
 4. Go into the directory and configure the application with the camera angle and the GPIOs that you would like to use with your Raspberry Pi
 
     ```
-    cd atem-tally-pi
+    cd atem-tally-pi-standalone
     nano config.js
     ```
 
-    Inside you'll see 2 values that you can edit. By default it uses GPIO 17 for program tally, and GPIO 27 for preview tally. Edit these values according to your hardware set up.
+    Inside you'll see 4 values that you can edit. By default it uses GPIO 17 for program tally, and GPIO 27 for preview tally. Edit these values according to your hardware set up.
+    You'll also need to specify the IP address of your ATEM device, and the camera number to track on this PI device.
 
     ```
     const config = {
 	    "programGpio": 17,
-	    "previewGpio": 27
+	    "previewGpio": 27,
+        "atemIp": "192.168.1.30",
+        "camera":1
     }
     ```
 

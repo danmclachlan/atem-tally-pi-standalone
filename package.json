@@ -1,25 +1,19 @@
 {
-    "name": "atem-tally-pi",
-    "version": "1.1.1",
-    "description": "ATEM Tally listener for Raspberry Pi",
+    "name": "atem-tally-pi-standalone",
+    "version": "0.0.1",
+    "description": "Raspberry Pi Tally listner for Blackmagic Design ATEM devices",
     "main": "app.js",
-    "homepage": "https://designshift.ca/",
+    "repository": {
+        "type": "git"
+    },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node app.js"
     },
-    "keywords": [
-        "atem"
-    ],
-    "author": "Scott Kuo",
+    "author": "Dan McLachlan",
     "license": "MIT",
     "dependencies": {
-        "bonjour": "^3.5.0",
-        "node-localstorage": "^2.1.6",
-        "node-machine-id": "^1.1.12",
         "onoff": "^6.0.1",
-        "socket.io": "^2.3.0",
-        "socket.io-client": "^2.3.1",
-        "uuid": "^8.3.1"
+        "atem-connection": "^1.3.3"
     }
 }
