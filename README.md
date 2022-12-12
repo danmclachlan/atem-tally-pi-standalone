@@ -31,13 +31,15 @@ It is derived from the work done by https://designshift.ca and merges the code f
     nano config.js
     ```
 
-    Inside you'll see 4 values that you can edit. By default it uses GPIO 17 for program tally, and GPIO 27 for preview tally. Edit these values according to your hardware set up.
+    Inside you'll see 5 values that you can edit. By default it uses GPIO 17 for program tally, and GPIO 27 for preview tally. Edit these values according to your hardware set up.
     You'll also need to specify the IP address of your ATEM device, and the camera number to track on this PI device.
+    Set 'usePreview' to 0 to disable using the Preview (Green) light.
 
     ```
     const config = {
 	    "programGpio": 17,
 	    "previewGpio": 27,
+        "usePreview": 1,
         "atemIp": "192.168.1.30",
         "camera":1
     }
@@ -52,12 +54,14 @@ It is derived from the work done by https://designshift.ca and merges the code f
     ```
     Press Ctrl + C at any time to exit.
 
-6. Go over to the main ATEM Tally application and look for your Pi under the Pi menu. You may need to refresh the device list in the application to see it.
+6. Repeat from Step 4 as needed to adjust your configuration.
 
-    Once you've found your Raspberry Pi in the list, just select the check box to connect to it.
+7. You can flash the tally lights to identify your PI device with
 
-7. Repeat from Step 4 as needed to adjust your configuration.
-
+    ```
+    node Indentify.js
+    ```
+    
 # Running as a Service on Node
 
 Once you are happy with your configuration, we'll run this as a service on your Raspberry Pi so that it'll always be listening for connections when it is turned on.

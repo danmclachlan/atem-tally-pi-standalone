@@ -7,6 +7,9 @@ const previewLed = new Gpio(config.previewGpio, 'out');
 
 let atemController = new AtemController();
 
+programLed.write(1);
+previewLed.write(1);
+
 atemController.on('camera_change', function() {
     programLed.write(0);
     previewLed.write(0);
@@ -16,7 +19,7 @@ atemController.on('camera_change', function() {
     
     if (this.programSourceIds.includes(config.camera)) {
         programLed.write(1);
-    } else if (this.previewSourceIds.includes(config.camera)) {
+    } else if (config.usePreview && this.previewSourceIds.includes(config.camera)) {
         previewLed.write(1);
     }
 });
@@ -28,6 +31,8 @@ atemController.on('connect', function() {
 });
 
 atemController.on('disconnect', function() {
+    programLed.write(1);
+    previewLed.write(1);
     // try to reconnect
     console.log('Lost connect to ATEM at IP: %s', this.activeIp);
 
