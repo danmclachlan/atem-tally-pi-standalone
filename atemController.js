@@ -9,26 +9,16 @@ util.inherits(AtemController, events);
 module.exports = AtemController;
 
 function AtemController() {
-    events.EventEmitter.call(this);
-    this.activeatem = new Atem({ externalLog: console.log });
-    this.activeip = '';
-    this.availableCameras = [];
-    this.previewSourceIds = [];
-    this.programSourceIds = [];
-
-    return this.activedevice;
-}
-
-AtemController.prototype.selectDevice = function(ip) {
     var self = this;
 
-    self.activeip = ip;
-    self.activeatem.connect(ip);
-    self.activeatem.on('connected', function() {
+    events.EventEmitter.call(self);
+    self.activeatem = new Atem({ externalLog: console.log });
+    self.activeip = '';
+    self.availableCameras = [];
+    self.previewSourceIds = [];
+    self.programSourceIds = [];
 
-    });
-
-    self.availableCameras = new Array();
+    self.activeatem.on('connected', function() {});
 
     self.activeatem.on('stateChanged', function(state, path) {
         var previewEnabled = [];
@@ -42,6 +32,7 @@ AtemController.prototype.selectDevice = function(ip) {
 
                 // Repopulate camera list
                 var inputs = self.activeatem.state.inputs;
+                self.availableCameras = new Array();
 
                 if (inputs) {
                     Object.keys(inputs).forEach(function(key) {
@@ -58,7 +49,7 @@ AtemController.prototype.selectDevice = function(ip) {
                     });
 
                     console.log('info');
-                    console.log(self.availableCameras);
+                    console.log('cameras: %s', self.availableCameras);
                     self.emit('update_cameras');
                 }
 
@@ -121,6 +112,15 @@ AtemController.prototype.selectDevice = function(ip) {
     self.activeatem.on('disconnected', function() {
         self.onAtemDisconnection();
     });
+
+    return this.activedevice;
+}
+
+AtemController.prototype.selectDevice = function(ip) {
+    var self = this;
+
+    self.activeip = ip;
+    self.activeatem.connect(ip);
 }
 
 AtemController.prototype.disconnectDevice = function() {
