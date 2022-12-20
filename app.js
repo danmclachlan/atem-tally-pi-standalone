@@ -27,14 +27,14 @@ atemController.on('camera_change', function() {
 atemController.on('connect', function() {
     programLed.write(0);
     previewLed.write(0);
-    console.log('Connected ATEM at IP: %s', this.activeIp);
+    console.log('Connected ATEM at IP: %s', this.activeip);
 });
 
 atemController.on('disconnect', function() {
     programLed.write(1);
     previewLed.write(1);
     // try to reconnect
-    console.log('Lost connect to ATEM at IP: %s', this.activeIp);
+    console.log('Lost connect to ATEM at IP: %s', this.activeip);
 
     atemController.selectDevice(config.atemIp);
 });
@@ -46,7 +46,7 @@ const exitHandler = function(options, exitCode) {
     if (options.cleanup) console.log('clean');
     if (exitCode || exitCode === 0) console.log(exitCode);
     if (options.exit) process.exit();
-}
+};
 
 //do something when app is closing
 process.on('exit', exitHandler.bind(null, { cleanup: true }));
