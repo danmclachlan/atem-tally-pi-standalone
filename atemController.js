@@ -25,9 +25,11 @@ function AtemController() {
         var programEnabled = [];
         switch (path) {
             case 'reconnect':
+                console.log('stateChanged:reconnect');
                 self.onAtemDisconnection();
                 break;
             case 'info':
+                console.log('stateChanged:info');
                 self.onAtemConnection();
 
                 // Repopulate camera list
@@ -48,20 +50,12 @@ function AtemController() {
 
                     });
 
-                    console.log('info');
-                    console.log('cameras: %s', self.availableCameras);
                     self.emit('update_cameras');
                 }
 
             default:
-                if (path.split('.')[0] != 'info') {
-                    console.log("path: '%s'", path);
-                    //console.log(state.info);
-                    //console.log(state.inputs);
-                }
-
                 if ((path.split('.')[0] == 'video' || (path == 'info' && self.activeatem.state.inputs)) && state.video.ME[0]) {
-                    console.log(state.video.ME);
+                    console.log("path: '%s'", path);
 
                     if (state.video.ME[0].inTransition) {
                         programEnabled.push(state.video.ME[0].programInput);
@@ -110,6 +104,7 @@ function AtemController() {
     });
 
     self.activeatem.on('disconnected', function() {
+        console.log('disconnected');
         self.onAtemDisconnection();
     });
 
@@ -118,14 +113,13 @@ function AtemController() {
 
 AtemController.prototype.selectDevice = function(ip) {
     var self = this;
-
     self.activeip = ip;
     self.activeatem.connect(ip);
 }
 
 AtemController.prototype.disconnectDevice = function() {
     var self = this;
-    console.log("Clearing cameras");
+    console.log("disconnectDevice");
     self.availableCameras = [];
     self.activeatem.disconnect();
 }
@@ -150,8 +144,7 @@ AtemController.prototype.onAtemDisconnection = function() {
 
 AtemController.prototype.onAtemPreviewChange = function(sourceIds) {
     var self = this;
-    console.log("Preview changed to ");
-    console.log(sourceIds);
+    console.log("Preview changed to ", sourceIds);
     self.previewSourceIds = sourceIds;
 
     self.emit('preview_change');
@@ -160,8 +153,7 @@ AtemController.prototype.onAtemPreviewChange = function(sourceIds) {
 
 AtemController.prototype.onAtemProgramChange = function(sourceIds) {
     var self = this;
-    console.log("Program changed to ");
-    console.log(sourceIds);
+    console.log("Program changed to ", sourceIds);
     self.programSourceIds = sourceIds;
 
     self.emit('program_change');

@@ -10,6 +10,10 @@ let atemController = new AtemController();
 programLed.write(1);
 previewLed.write(1);
 
+atemController.on('update_cameras', function() {
+    console.log('camera:', this.availableCameras["SID_" + config.camera]);
+});
+
 atemController.on('camera_change', function() {
     programLed.write(0);
     previewLed.write(0);
@@ -35,7 +39,6 @@ atemController.on('disconnect', function() {
     previewLed.write(1);
     // try to reconnect
     console.log('Lost connect to ATEM at IP: %s', this.activeip);
-
     atemController.selectDevice(config.atemIp);
 });
 
